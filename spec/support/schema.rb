@@ -20,6 +20,15 @@ when 'pg', 'postgres', 'postgresql'
     host: ENV.fetch("DATABASE_HOST") { "localhost" },
     min_messages: 'warning'
   )
+when 'sqlserver'
+  ActiveRecord::Base.establish_connection(
+    adapter: 'sqlserver',
+    database: 'ransack',
+    username: ENV.fetch("DATABASE_USERNAME") { "sa" },
+    password: ENV.fetch("DATABASE_PASSWORD") { "" },
+    host: ENV.fetch("DATABASE_HOST") { "localhost" },
+    encoding: 'utf8'
+  )
 else
   # Otherwise, assume SQLite3: `bundle exec rake spec`
   ActiveRecord::Base.establish_connection(

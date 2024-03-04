@@ -97,3 +97,44 @@ jobs:
         run: bundle install
       - name: Run tests
         run: bundle exec rspec
+
+  sqlserver:
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        rails:
+          - v7.1.0
+          - v7.0.3
+          - v6.1.6
+        ruby:
+          - 3.2.2
+          - 3.1.4
+          - 3.0.6
+    env:
+      DB: sqlserver
+      RAILS: ${{ matrix.rails }}
+      DATABASE_USERNAME: sa
+      DATABASE_PASSWORD: sqlserver
+      DATABASE_HOST: 127.0.0.1
+    services:
+      sqlserver:
+        image: mcr.microsoft.com/mssql/server
+        ports:
+          - 1433:1433
+        env:
+          MSSQL_SA_PASSWORD: "sqlserver"
+          ACCEPT_EULA: "Y"
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - name: Setup databases
+        run: |
+          sqlcmd -S localhost -U sa -P sqlserver -Q 'create database ransack;'
+      - name: Run tests
+        run: bundle exec rspec

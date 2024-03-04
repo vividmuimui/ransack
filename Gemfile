@@ -17,6 +17,7 @@ rails_version = case rails
 gem 'faker'
 gem 'sqlite3'
 gem 'pg'
+gem 'activerecord-sqlserver-adapter'
 gem 'pry'
 gem 'byebug'
 

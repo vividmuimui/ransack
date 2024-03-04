@@ -101,6 +101,14 @@ Here's a quick guide:
    mysql> create database ransack; 
    ```
 
+   ### SQLServer
+   
+   ```sh
+   sqlcmd -U sa
+   1> create database ransack;
+   2> go
+   ```
+
    The test suite runs by default
 
    To run only the tests in a particular file: `bundle exec rspec <path/to/filename>`
